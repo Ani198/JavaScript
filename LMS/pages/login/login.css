@@ -1,0 +1,48 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+
+#username, #password{
+    border-radius: 5px;
+    height: 35px;
+    width: 300px;
+    padding: 5px;
+    margin: 8px;
+}
+
+#role{
+    border-radius: 5px;
+    height: 35px;
+    width: 300px;
+    padding: 5px;
+    margin: 5px;
+}
+.login_button{
+    padding: 5px;
+    margin: 5px;
+    height: 35px;
+    width: 100px;
+    background: floralwhite;
+    border-radius: 5px;
+}
+.login_form{
+    margin: 100px 0px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+
+.body{
+    background: bisque;
+}
+
+.header{
+    display: flex;
+    height: 80px;
+    background: maroon;
+    color: antiquewhite;
+}
