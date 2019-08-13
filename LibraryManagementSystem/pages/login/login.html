@@ -19,13 +19,22 @@
             <input type="text" id="username" placeholder="Username">
             <label style="opacity: 0.6">Enter Password</label>
             <input type="password" id="password" placeholder="Password">
-            <label style="opacity: 0.6">Login as</label>
-            <select id = "role" name="role">
-                <option value="student">Student</option>
-                <option value="faculty">Faculty</option>
-                <option value="admin">Admin</option>
-            </select>
-            <input class = "login_button" type="button" value="Login" onclick="login()">
+            <div>
+                <input class = "login_button" type="button" value="Login" onclick="login()">
+                <input class = "registration_button" type="button" value="Register" onclick="registerFromLoginPage()">
+            </div>
         </form>
+
+        <div>
+            <pre>
+                Available logins:
+
+                username   password
+                --------------------
+                admin      admin   //login as admin
+                student    student //login as student
+                faculty    faculty //login as faculty
+            </pre>
+        </div>
     </body>
 </html>

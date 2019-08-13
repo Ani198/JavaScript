@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 80%;
+            margin: auto;
+        }
+
+        td{
+            border: 1px solid black;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th{
+            border: 1px solid black;
+            text-align: left;
+            padding: 8px;
+            background: darksalmon;
+        }
+
+        tr:nth-child(even) {
+            background-color: darkgray;
+        }
+    </style>
+    <script src="../../lms/library.js"></script>
+    <script src="../../lms/book.js"></script>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <link rel="stylesheet" href="user.css">
+    <script>
+        window.onload = function () {
+            let user = JSON.parse(sessionStorage.getItem('authInfo'));
+            console.log("blabla")
+            if(user.role == 'student'){
+                document.getElementById('recButton').style.opacity = 0;
+            }
+        }
+    </script>
+    <header class = "header">
+        <h1 style="padding: 15px">Library Management System</h1>
+    </header>
+<body class = "body" id = "body">
+    <div style="text-align: center; margin: 10px"><h3>You are logged in as Student/Faculty</h3></div>
+    <hr>
+    <hr>
+    <br id = "br">
+    <div style="display: flex; justify-content: space-between">
+        <div style="display: flex">
+            <button class = "button" type="button">Issue Book</button>
+            <button class = "button" type="button">Renew Book</button>
+            <button class = "button" type="button">Return Book</button>
+            <button class = "button" type="button">View History</button>
+            <button class = "button" id = "recButton" type="button">Recommend Book</button>
+        </div>
+        <div style="display: flex">
+            <button class = "button" type="button" onclick="something()">View Books</button>
+            <button class = "button" type="button" onclick="adddBook()">Add Book</button>
+        </div>
+        <form style="display: flex; justify-content: flex-end; align-items: center">
+            <span style="margin: 15px">Search Book</span>
+            <input type="text" name="search">
+            <button class = "search_button" type="button">Search</button>
+        </form>
+
+    </div>
+    <br><br>
+    <a href="../login/login.html"><h2>Logout</h2></a>
+    <br><br>
+
+</body>
+</html>

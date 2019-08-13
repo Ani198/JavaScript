@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+    <link rel="stylesheet" href="registration.css">
+    <script src="login.controller.js"></script>
+    <script src="../../lms/authentication.service.js"></script>
+    <script src="../../lms/um.service.js"></script>
+    <script src="../../lms/encryption.helper.js"></script>
+    <script src="../../lms/user.js"></script>
+    <script src="../../lms/lms.js"></script>
+</head>
+<header class = "header">
+    <h1 style="padding: 15px">Library Management System</h1>
+</header>
+<body class = "body" onload="window.lms = new LMS();">
+<form class = "registration_form">
+    <label style="opacity: 0.6">Enter Username</label>
+    <input type="text" id="username" placeholder="Username">
+
+    <label style="opacity: 0.6">Enter Email</label>
+    <input type="email" id="email" placeholder="Email">
+
+    <label style="opacity: 0.6">Enter Phone number</label>
+    <input type="text" id="phone" placeholder="Phone">
+    <label style="opacity: 0.6">Enter Password</label>
+    <input type="password" id="password" placeholder="Password">
+
+    <label style="opacity: 0.6">Register as</label>
+    <select id = "role" name="role">
+        <option value="student">Student</option>
+        <option value="faculty">Faculty</option>
+        <option value="admin">Admin</option>
+    </select>
+    <input class = "registration_button" type="button" value="Register">
+
+</form>
+</body>
+</html>

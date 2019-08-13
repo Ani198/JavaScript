@@ -4,7 +4,7 @@
     padding:0;
 }
 
-#username, #password{
+#username, #password, #email, #phone{
     border-radius: 5px;
     height: 35px;
     width: 300px;
@@ -19,7 +19,7 @@
     padding: 5px;
     margin: 5px;
 }
-.login_button{
+.registration_button{
     padding: 5px;
     margin: 5px;
     height: 35px;
@@ -27,7 +27,7 @@
     background: floralwhite;
     border-radius: 5px;
 }
-.login_form{
+.registration_form{
     margin: 100px 0px;
     display:flex;
     flex-direction: column;

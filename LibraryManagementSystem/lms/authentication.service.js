@@ -1,5 +1,5 @@
 class AuthService {
-    static login(username, password, role){
+    static login(username, password){
         let user = window.lms.getUmService().getUserByUsername(username);
         if(user==null){
             console.log('Username or password is incorrect');
@@ -10,12 +10,10 @@ class AuthService {
         if(user.password === hashedPass){
             if(sessionStorage.getItem('authInfo')!=null) sessionStorage.removeItem('authInfo');
             sessionStorage.setItem('authInfo', JSON.stringify(user));
-            switch (role) {
+            switch (user.role) {
                 case "student":
-                    window.location.replace("../student/student.html");
-                    break;
                 case 'faculty':
-                    window.location.replace("../faculty/faculty.html");
+                    window.location.replace("../user/user.html");
                     break;
                 case 'admin':
                     window.location.replace("../admin/admin.html");

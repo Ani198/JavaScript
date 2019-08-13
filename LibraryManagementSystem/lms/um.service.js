@@ -3,8 +3,12 @@ class UserManagement {
         this.users = [];
         this.passwords = [];
         
-        this.users.push(new User('admin','admin','','','','employee'));
+        this.users.push(new User('admin','admin','','','','admin'));
         this.passwords.push('admin12');
+        this.users.push(new User('student','student','','','','student'));
+        this.passwords.push('student12');
+        this.users.push(new User('faculty','faculty','','','','faculty'));
+        this.passwords.push('faculty12');
     }
 
     getUserByUsername(username){
