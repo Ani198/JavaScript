@@ -5,14 +5,14 @@
 }
 
 .body{
-    background: bisque;
+    background: antiquewhite;
 }
 
 .header{
     display: flex;
     height: 80px;
-    background: maroon;
-    color: antiquewhite;
+    background: sienna;
+    color: white;
 }
 
 .button{
@@ -25,27 +25,80 @@
     border-radius: 5px;
 }
 
+input[type=search] {
+    width: 100px;
+    margin: 10px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('icons8-search-24.png');
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=search]:focus {
+    width: 100%;
+}
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 80%;
+    width: 90%;
     margin: auto;
     margin-bottom: 20px;
+
+    border-radius: 6px;
 }
 
 td{
-    border: 1px solid black;
+
     text-align: left;
     padding: 8px;
 }
 
 th{
-    border: 1px solid black;
+
     text-align: left;
     padding: 8px;
-    background: darksalmon;
+
 }
 
-tr:nth-child(even) {
-    background-color: darkgray;
+#takeId{
+    background: darkgrey;
+    border-bottom: 1px solid gray;
+}
+#takeId:hover{
+    cursor: pointer;
+}
+
+
+
+.add-button{
+    padding: 5px;
+    margin: 5px;
+    height: 35px;
+    width: 100px;
+    background: floralwhite;
+    border-radius: 5px;
+}
+
+
+table tr td {border-right: 1px solid #dfdfdf;}
+table tr td:last-child {border-right: 0px;}
+table  tr:nth-child(1n) {background: #f6f6f6;}
+table  tr:nth-child(2n) {background: #e6e6e6;}
+table  tr:hover {background: #ffe8e8; transition-duration: 0.6s;}
+
+
+.nav-item{
+    padding: 20px;
+}
+.nav-item:hover{
+    background: chocolate;
+    cursor: pointer;
 }

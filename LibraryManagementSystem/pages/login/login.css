@@ -37,12 +37,12 @@
 }
 
 .body{
-    background: bisque;
+    background: antiquewhite;
 }
 
 .header{
     display: flex;
     height: 80px;
-    background: maroon;
-    color: antiquewhite;
+    background: sienna;
+    color: white;
 }

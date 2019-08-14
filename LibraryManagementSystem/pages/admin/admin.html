@@ -7,49 +7,74 @@
     <title>Admin</title>
     <link rel="stylesheet" href="admin.css">
 </head>
-<header class = "header">
+<header class = "header" style="display: flex; justify-content: space-between">
     <h1 style="padding: 15px">Library Management System</h1>
+
+    <div class = "navigation" style="display: flex; justify-content:center">
+
+        <div id = "book-nav-button" class="nav-item" style="margin: 10px; text-align: center; background: chocolate"
+             onclick="bookPage()">Book Management</div>
+        <div id = "user-nav-button" class="nav-item" style="margin: 10px; text-align: center" onclick="userPage()">User Management</div>
+        <div id = "role-nav-button" class="nav-item" style="margin: 10px; text-align: center" onclick="rolePage()">Role Management</div>
+
+    </div>
+    <div style="display: flex; flex-direction: row">
+        <a style="color: white; font-size: large;  text-decoration: none;
+        margin: 30px; width: auto" href="../login/login.html">Logout</a>
+        <h2 style="padding: 10px; background: chocolate; border-radius: 10px;
+        align-self: center; margin-right: 20px">Admin</h2>
+    </div>
 </header>
 <body class = "body" id = "body">
-<div style="text-align: center; margin: 10px"><h3>You are logged in as Admin</h3></div>
-<hr>
-<hr>
-<br>
-<div style="display: flex; justify-content: space-between">
-    <div>
-        <h3 style="margin: 10px; text-align: center">Book Management</h3>
-        <hr style="width: 20%; color: black; margin-left: 40%">
-        <div style="display: flex; align-items: center; justify-content: center">
-            <button class = "button" type="button">Accept Hold</button>
-            <button class = "button" type="button">Accept Renewal</button>
-            <button class = "button" type="button">Accept Return</button>
-        </div>
-        <div style="display: flex; align-items: center; justify-content: center">
-            <button class = "button" type="button">Recommend Book</button>
 
+    <form style="display: flex; justify-content: flex-start; align-items: start; width: 500px">
+        <input type="search" name="search" onkeyup="searchBook()">
+        <!--<button class = "search_button" type="button">Search</button>-->
+    </form>
+
+
+    <div id = "book-manage" style="display: flex;">
+        <div style="display: flex; flex-direction: column">
+            <!--<div style="display: flex; justify-content: flex-start">
+                <button class = "button" type="button">Accept Hold</button>
+                <button class = "button" type="button">Accept Renewal</button>
+                <button class = "button" type="button">Accept Return</button>
+            </div>-->
+            <div style="display: flex; justify-content: flex-start">
+                <button class = "button" type="button" onclick="generateBooks()">Generate Books</button>
+                <button class = "button" type="button" onclick="something()">View Books</button>
+                <button class = "button" type="button" onclick="adddBook()">Add Book</button>
+            </div>
         </div>
+            <div id = "adding-form" style="display: none">
+                <form style="display: flex; flex-direction: row; margin: 0px 50px">
+                    <div style="display: flex; flex-direction: column">
+                        <input id = "titleId" style="margin: 10px; padding: 10px" type="text" placeholder="Title">
+                        <input id = "authorId" style="margin: 10px; padding: 10px" type="text" placeholder="Author">
+                        <input id = "descriptionId" style="margin: 10px; padding: 10px" type="text" placeholder="Description">
+                        <input id = "pageCountId" style="margin: 10px; padding: 10px" type="text" placeholder="Page count">
+                    </div>
+                    <div style="display: flex; align-items: flex-end">
+                        <input style="margin-bottom: 15px" class = "add-button" type="button" value="Add" onclick="addBookToLibrary()">
+                    </div>
+                </form>
+            </div>
+
     </div>
-
-    <br><br>
-    <div>
-        <h3 style="margin: 10px; text-align: center">User Management</h3>
-        <hr style="width: 20%; color: black; margin-left: 40%">
-        <div style="display: flex; align-items: center; justify-content: center">
+    <div id = "user-manage" style="display: none">
+        <div style="display: flex; flex-direction: row">
             <button class = "button" type="button">Add User</button>
             <button class = "button" type="button">Edit User</button>
             <button class = "button" type="button">Remove User</button>
         </div>
     </div>
-</div>
-<div style="display: flex; justify-content: center">
-    <button class = "button" type="button" onclick="something()">View Books</button>
-    <button class = "button" type="button" onclick="adddBook()">Add Book</button>
-</div>
+    <div id = "role-manage" style="display: none">
+        <div style="display: flex; flex-direction: row">
+            <button class = "button" type="button">Add Role</button>
+            <button class = "button" type="button">Edit Role</button>
+            <button class = "button" type="button">Remove Role</button>
+        </div>
+    </div>
 
-<div>
-
-</div>
-
-<a href="../login/login.html"><h2>Logout</h2></a>
 </body>
 </html>

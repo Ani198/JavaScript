@@ -5,37 +5,27 @@
 }
 
 .body{
-    background: bisque;
+    background: antiquewhite;
 }
 
 .header{
     display: flex;
     height: 80px;
-    background: maroon;
+    background: sienna;
     color: antiquewhite;
-}
-
-.search_button{
-    height: 30px;
-    width: 80px;
-    background: floralwhite;
-    padding: 5px;
-    margin: 20px;
-    text-align: center;
-    border-radius: 5px;
 }
 
 .button{
     height: 50px;
-    width: 100px;
+    width: auto;
     background: floralwhite;
-    padding: 5px;
+    padding: 5px 15px;
     margin: 20px;
     text-align: center;
     border-radius: 5px;
 }
 
-input[type=text] {
+input[type=search] {
     width: 100px;
     margin: 10px;
     box-sizing: border-box;
@@ -51,6 +41,56 @@ input[type=text] {
     transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
-    width: 50%;
+input[type=search]:focus {
+    width: 100%;
 }
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    margin-bottom: 20px;
+
+    border-radius: 6px;
+}
+
+td{
+
+    text-align: left;
+    padding: 8px;
+}
+
+th{
+
+    text-align: left;
+    padding: 8px;
+
+}
+
+#takeId, #recommendId, #returnId{
+    background: darkgrey;
+    border-bottom: 1px solid gray;
+}
+#takeId:hover, #recommendId:hover, #returnId:hover{
+    cursor: pointer;
+    background: #cccccc;
+}
+
+
+
+.add-button{
+    padding: 5px;
+    margin: 5px;
+    height: 35px;
+    width: 100px;
+    background: floralwhite;
+    border-radius: 5px;
+}
+
+
+table tr td {border-right: 1px solid #dfdfdf;}
+table tr td:last-child {border-right: 0px;}
+table  tr:nth-child(1n) {background: #f6f6f6;}
+table  tr:nth-child(2n) {background: #e6e6e6;}
+table  tr:hover {background: #ffe8e8; transition-duration: 0.6s;}

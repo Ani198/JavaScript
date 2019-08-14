@@ -1,75 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 80%;
-            margin: auto;
-        }
-
-        td{
-            border: 1px solid black;
-            text-align: left;
-            padding: 8px;
-        }
-
-        th{
-            border: 1px solid black;
-            text-align: left;
-            padding: 8px;
-            background: darksalmon;
-        }
-
-        tr:nth-child(even) {
-            background-color: darkgray;
-        }
-    </style>
     <script src="../../lms/library.js"></script>
     <script src="../../lms/book.js"></script>
     <meta charset="UTF-8">
     <title>User</title>
     <link rel="stylesheet" href="user.css">
-    <script>
-        window.onload = function () {
-            let user = JSON.parse(sessionStorage.getItem('authInfo'));
-            console.log("blabla")
-            if(user.role == 'student'){
-                document.getElementById('recButton').style.opacity = 0;
-            }
-        }
-    </script>
-    <header class = "header">
+
+    <header class = "header" style="display: flex; justify-content: space-between">
         <h1 style="padding: 15px">Library Management System</h1>
+        <div style="display: flex; flex-direction: row">
+            <a style="color: white; font-size: large;  text-decoration: none;
+        margin: 30px; width: auto" href="../login/login.html">Logout</a>
+            <h2 id = "role-name" style="padding: 10px; background: chocolate; border-radius: 10px;
+        align-self: center; margin-right: 20px"></h2>
+            <script>
+                let user = JSON.parse(sessionStorage.getItem('authInfo'));
+                let txt = capitalize(user.role);
+                document.getElementById("role-name").innerText = txt;
+            </script>
+        </div>
     </header>
+
 <body class = "body" id = "body">
-    <div style="text-align: center; margin: 10px"><h3>You are logged in as Student/Faculty</h3></div>
-    <hr>
-    <hr>
-    <br id = "br">
+    <form style="display: flex; justify-content: flex-start; align-items: center;  width: 500px">
+        <input type="search" name="search">
+        <!--<button class = "search_button" type="button">Search</button>-->
+    </form>
+
     <div style="display: flex; justify-content: space-between">
         <div style="display: flex">
-            <button class = "button" type="button">Issue Book</button>
-            <button class = "button" type="button">Renew Book</button>
-            <button class = "button" type="button">Return Book</button>
-            <button class = "button" type="button">View History</button>
-            <button class = "button" id = "recButton" type="button">Recommend Book</button>
-        </div>
-        <div style="display: flex">
+            <button class = "button" type="button" onclick="viewHistory()">View History</button>
             <button class = "button" type="button" onclick="something()">View Books</button>
-            <button class = "button" type="button" onclick="adddBook()">Add Book</button>
+            <button class = "button" type="button" onclick="showRecommend()">Recommendations</button>
+            <button class = "button" type="button" onclick="showTakenBooks()">My Books</button>
         </div>
-        <form style="display: flex; justify-content: flex-end; align-items: center">
-            <span style="margin: 15px">Search Book</span>
-            <input type="text" name="search">
-            <button class = "search_button" type="button">Search</button>
-        </form>
+
 
     </div>
-    <br><br>
-    <a href="../login/login.html"><h2>Logout</h2></a>
-    <br><br>
+
+
 
 </body>
 </html>

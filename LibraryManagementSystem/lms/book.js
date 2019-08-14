@@ -1,12 +1,17 @@
 let counter = makeCounter();
 
 class Book{
-    constructor(){
+    constructor(title = capitalize(randomWord()), author = authors[getRndInteger(0, authors.length - 1)],
+                pageCount = getRndInteger(2, 500), description = randomText()){
         this.id = counter();
-        this.title = capitalize(randomWord());
-        this.author = authors[getRndInteger(0, authors.length - 1)];
-        this.pageCount = getRndInteger(2, 500);
-        this.description = randomText();
+        this.title = title;
+        this.author = author;
+        this.pageCount = pageCount;
+        this.description = description;
+        this.recommended = false;
+        this.taken = false;
+        this.takeDate = ""; //new Date().toString().slice(0, 21)
+        this.returnDate = "";
     }
 }
 
