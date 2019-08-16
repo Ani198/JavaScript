@@ -133,6 +133,7 @@ function adddBook() {
     else{
         if(document.getElementById("adding-form").style.display == "block"){
             document.getElementById("adding-form").style.display = "none";
+            document.getElementById("add-message").style.display = "none";
         }
         else{
         document.getElementById("adding-form").style.display = "block";
@@ -146,10 +147,25 @@ function addBookToLibrary(){
     let author = document.getElementById("authorId").value;
     let description = document.getElementById("descriptionId").value;
     let pageCount = document.getElementById("pageCountId").value;
-    lib.registerBook(new Book(title, author, pageCount, description));
 
-    document.getElementById("adding-form").style.display = "none";
-    something();
+    if(title == "" || author == "" || description == "" || pageCount == ""){
+        document.getElementById("add-message").style.display = "block";
+    }
+    else{
+        //lib.registerBook(new Book(title, author, pageCount, description));
+        let books = JSON.parse(sessionStorage.getItem("books"));
+        console.log(books);
+        books.push(new Book(title, author, pageCount, description));
+        sessionStorage.setItem("books", JSON.stringify(books));
+
+        document.getElementById("adding-form").style.display = "none";
+        something();
+    }
+
+    document.getElementById("titleId").value = "";
+    document.getElementById("authorId").value = "";
+    document.getElementById("descriptionId").value = "";
+    document.getElementById("pageCountId").value = "";
 }
 
 
@@ -164,11 +180,19 @@ function checkItemInArray(item, arr) {
 }
 
 function generateBooks() {
+    /*let books = [];
+    if(JSON.parse(sessionStorage.getItem("books")) !== null){
+        books = JSON.parse(sessionStorage.getItem("books"));
+    }*/
     for(let i = 0; i < 10; i++){
         lib.registerBook(new Book());
     }
 
     sessionStorage.setItem("books", JSON.stringify(lib.books));
+
+    document.getElementById("gen-books").style.background = "chocolate";
+
+
 }
 
 function something() {
@@ -176,6 +200,7 @@ function something() {
     let user = JSON.parse(sessionStorage.getItem('authInfo'));
 
     let books = JSON.parse(sessionStorage.getItem("books"));
+
     let tbl = document.getElementById("table");
     if(document.getElementById("body").contains(tbl)){
         document.body.removeChild(tbl);
@@ -246,15 +271,17 @@ function something() {
             let td6 = document.createElement('td');
             td6.id = "takeId";
             td6.addEventListener("click", function () {
-                if(td6.innerText == "Taken"){
+                if(td6.innerText == "Request was sent"){
                     td6.innerText = "Take";
                     td6.style.background = "darkgrey";
-                    books[i].taken = false;
+                    books[i].takeRequest = false;
+                    //books[i].taken = false;
                 }
                 else{
-                    td6.innerText = "Taken";
+                    td6.innerText = "Request was sent";
                     td6.style.background = "chocolate";
-                    books[i].taken = true;
+                    books[i].takeRequest = true;
+                    //books[i].taken = true;
                     books[i].takeDate = new Date().toString().slice(0, 21);
                     //user.bookHistory.add(books[i]);
                     //console.log(books[i].takeDate);
@@ -266,6 +293,11 @@ function something() {
                 td6.innerText = "Taken";
                 td6.style.background = "chocolate"
             }
+            else if(book.takeRequest){
+                td6.innerText = "Request was sent";
+                td6.style.background = "chocolate"
+            }
+
             else{td6.appendChild(document.createTextNode("Take"));}
             tr.appendChild(td6);
         }
@@ -375,14 +407,26 @@ function showRecommend() {
             let td6 = document.createElement('td');
             td6.id = "takeId";
             td6.addEventListener("click", function () {
-                if (td6.innerText == "Taken") {
+                if (td6.innerText == "Take Request was sent") {
                     td6.innerText = "Take";
                     td6.style.background = "darkgrey";
-                    books[i].taken = false;
+                    books[i].takeRequest = false;
+                    //books[i].taken = false;
                 } else {
-                    td6.innerText = "Taken";
+                    td6.innerText = "Take Request was sent";
                     td6.style.background = "chocolate";
-                    books[i].taken = true;
+                    books[i].takeRequest = true;
+                    console.log(user);
+                    let users = JSON.parse(sessionStorage.getItem("users"));
+                    for(let i = 0; i < users.length; i++){
+                        if(users[i].username == user.username){
+                            users[i].requests.push(new RequestClass(book, "take"));
+                        }
+                        console.log(users[i].requests)
+                    }
+                    sessionStorage.setItem("users", JSON.stringify(users));
+
+                    //books[i].taken = true;
                     books[i].takeDate = new Date().toString().slice(0, 21);
                     //user.bookHistory.add(books[i]);
                     //console.log(books[i].takeDate);
@@ -576,7 +620,10 @@ function searchBook() {
 }
 
 function bookPage() {
-    document.getElementById("table").style.display = "none";
+    let tbl = document.getElementById("table");
+    if(document.getElementById("body").contains(tbl)){
+        document.getElementById("table").style.display = "none";
+    }
 
     document.getElementById("book-manage").style.display = "block";
     document.getElementById("book-nav-button").style.background = "chocolate";
@@ -587,7 +634,11 @@ function bookPage() {
 }
 
 function userPage() {
-    document.getElementById("table").style.display = "none";
+    let tbl = document.getElementById("table");
+    if(document.getElementById("body").contains(tbl)){
+        document.getElementById("table").style.display = "none";
+    }
+    //document.getElementById("table").style.display = "none";
     document.getElementById("book-manage").style.display = "none";
     document.getElementById("book-nav-button").style.background = "none";
     document.getElementById("user-manage").style.display = "block";
@@ -597,7 +648,11 @@ function userPage() {
 }
 
 function rolePage() {
-    document.getElementById("table").style.display = "none";
+    let tbl = document.getElementById("table");
+    if(document.getElementById("body").contains(tbl)){
+        document.getElementById("table").style.display = "none";
+    }
+    //document.getElementById("table").style.display = "none";
     document.getElementById("book-manage").style.display = "none";
     document.getElementById("book-nav-button").style.background = "none";
     document.getElementById("user-manage").style.display = "none";
@@ -657,6 +712,188 @@ function getRoles()
         }
     };
 }
+
+function adddUser() {
+    let regForm = document.getElementById("page-content");
+    if(regForm.style.display == "block"){
+        regForm.style.display = "none";
+    }
+    else {
+        regForm.style.display = "block";
+    }
+}
+
+function registerUser() {
+    let username = document.getElementById("username").value;
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let email = document.getElementById("email").value;
+    let phone = document.getElementById("phone").value;
+    let password = document.getElementById("password").value;
+    let role = document.getElementById("role").value;
+
+
+
+    if(username == "" || firstName == "" || lastName == "" || email == "" || phone == "" || password == ""){
+        document.getElementById("reg-message").style.display = "block";
+    }
+    else{
+        let users = JSON.parse(sessionStorage.getItem("users"));
+        let passwords = JSON.parse(sessionStorage.getItem("passwords"))
+        console.log(users);
+        console.log(passwords);
+        users.push(new User(username, firstName, lastName, phone, email, role));
+        passwords.push(EncryptionHelper.hash(password));
+        sessionStorage.setItem("users", JSON.stringify(users));
+        sessionStorage.setItem("passwords", JSON.stringify(passwords));
+
+        sessionStorage.setItem("smth", "Something");
+
+        document.getElementById("reg-form").style.display = "none";
+        viewUsers();
+    }
+}
+
+function viewUsers() {
+    let users = JSON.parse(sessionStorage.getItem("users"));
+
+    let currentUser = JSON.parse(sessionStorage.getItem('authInfo'));
+
+    let tbl = document.getElementById("table");
+    if(document.getElementById("body").contains(tbl)){
+        document.body.removeChild(tbl);
+        document.getElementById("page-content").style.display = "none";
+    }
+
+    let table = document.createElement('table');
+    table.id = "table";
+    let trh = document.createElement('tr');
+
+    let th1 = document.createElement('th');
+    let th2 = document.createElement('th');
+    let th3 = document.createElement('th');
+    let th4 = document.createElement('th');
+    let th5 = document.createElement('th');
+    let th6 = document.createElement('th');
+
+    th1.appendChild(document.createTextNode("Usename"));
+    th2.appendChild(document.createTextNode("First Name"));
+    th3.appendChild(document.createTextNode("Last Name"));
+    th4.appendChild(document.createTextNode("Phone"));
+    th5.appendChild(document.createTextNode("Email"));
+    th6.appendChild(document.createTextNode("Role"));
+
+    trh.appendChild(th1);
+    trh.appendChild(th2);
+    trh.appendChild(th3);
+    trh.appendChild(th4);
+    trh.appendChild(th5);
+    trh.appendChild(th6);
+
+    if(getRoles()[currentUser.role].editUser){
+        let th7 = document.createElement('th');
+        trh.appendChild(th7);
+    }
+
+    if(getRoles()[currentUser.role].removeUser){
+        let th8 = document.createElement('th');
+        trh.appendChild(th8);
+    }
+
+    table.appendChild(trh);
+
+    for (let i = 0; i < users.length; i++) {
+        let user = users[i];
+
+        let tr = document.createElement('tr');
+
+        let td1 = document.createElement('td');
+        let td2 = document.createElement('td');
+        let td3 = document.createElement('td');
+        let td4 = document.createElement('td');
+        let td5 = document.createElement('td');
+        let td6 = document.createElement('td');
+
+
+        td1.appendChild(document.createTextNode(user.username));
+        td2.appendChild(document.createTextNode(user.firstName));
+        td3.appendChild(document.createTextNode(user.lastName));
+        td4.appendChild(document.createTextNode(user.phone));
+        td5.appendChild(document.createTextNode(user.email));
+        td6.appendChild(document.createTextNode(user.role));
+
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+
+        if (getRoles()[currentUser.role].editUser) {
+            let td7 = document.createElement('td');
+            td7.id = "editId";
+            td7.appendChild(document.createTextNode("Edit"));
+            td7.addEventListener("click", function () {
+                document.getElementById("edit-user-form").style.display = "block";
+                document.getElementById("edit-username").value = user.username;
+                document.getElementById("edit-firstName").value = user.firstName;
+                document.getElementById("edit-lastName").value = user.lastName;
+                document.getElementById("edit-email").value = user.email;
+                document.getElementById("edit-phone").value = user.phone;
+                //document.getElementById("edit-role").value = "Student";
+                document.getElementById("role-label").innerText = "Role: "+capitalize(user.role);
+                sessionStorage.setItem("editting", JSON.stringify(user));
+            });
+            tr.appendChild(td7);
+        }
+
+        if (getRoles()[currentUser.role].removeUser) {
+            let td8 = document.createElement('td');
+            td8.id = "removeId";
+            td8.appendChild(document.createTextNode("Remove"));
+            td8.addEventListener("click", function () {
+                users.splice(i, 1);
+                sessionStorage.setItem("users", JSON.stringify(users));
+                viewUsers();
+            });
+            tr.appendChild(td8);
+        }
+
+        table.appendChild(tr);
+    }
+    document.body.appendChild(table);
+}
+
+function editCancel() {
+    document.getElementById("edit-user-form").style.display = "none";
+
+}
+
+function edittUser() {
+    let edUser = JSON.parse(sessionStorage.getItem("editting"));
+    let users = JSON.parse(sessionStorage.getItem("users"));
+
+
+    edUser.firstName = document.getElementById("edit-firstName").value;
+    edUser.lastName = document.getElementById("edit-lastName").value;
+    edUser.email = document.getElementById("edit-email").value;
+    edUser.phone = document.getElementById("edit-phone").value;
+    edUser.role = document.getElementById("edit-role").value;
+
+    for(let i = 0; i<users.length; i++){
+        if(users[i].username == edUser.username){
+            edUser.username = document.getElementById("edit-username").value;
+            users[i] = edUser;
+        }
+    }
+
+    sessionStorage.setItem("users", JSON.stringify(users));
+    editCancel();
+    viewUsers();
+}
+
+
 
 
 

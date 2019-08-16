@@ -3,6 +3,9 @@
 <head>
     <script src="../../lms/library.js"></script>
     <script src="../../lms/book.js"></script>
+    <script src="../../lms/user.js"></script>
+    <script src="../../lms/encryption.helper.js"></script>
+
     <meta charset="UTF-8">
     <title>Admin</title>
     <link rel="stylesheet" href="admin.css">
@@ -41,7 +44,7 @@
                 <button class = "button" type="button">Accept Return</button>
             </div>-->
             <div style="display: flex; justify-content: flex-start">
-                <button class = "button" type="button" onclick="generateBooks()">Generate Books</button>
+                <button id = "gen-books" class = "button" type="button" onclick="generateBooks()">Generate Books</button>
                 <button class = "button" type="button" onclick="something()">View Books</button>
                 <button class = "button" type="button" onclick="adddBook()">Add Book</button>
             </div>
@@ -53,7 +56,9 @@
                         <input id = "authorId" style="margin: 10px; padding: 10px" type="text" placeholder="Author">
                         <input id = "descriptionId" style="margin: 10px; padding: 10px" type="text" placeholder="Description">
                         <input id = "pageCountId" style="margin: 10px; padding: 10px" type="text" placeholder="Page count">
+                        <p id = "add-message" style="color: red; display: none">All fields must be filled</p>
                     </div>
+
                     <div style="display: flex; align-items: flex-end">
                         <input style="margin-bottom: 15px" class = "add-button" type="button" value="Add" onclick="addBookToLibrary()">
                     </div>
@@ -63,9 +68,54 @@
     </div>
     <div id = "user-manage" style="display: none">
         <div style="display: flex; flex-direction: row">
-            <button class = "button" type="button">Add User</button>
-            <button class = "button" type="button">Edit User</button>
-            <button class = "button" type="button">Remove User</button>
+            <button class = "button" type="button" onclick="viewUsers()">View Users</button>
+            <button class = "button" type="button" onclick="adddUser()">Add User</button>
+            <div id = "page-content" style="display: none">
+                <form id = "reg-form"  class = "registration_form">
+                    <input type="text" id="username" placeholder="Username">
+                    <input type="text" id="firstName" placeholder="First Name">
+                    <input type="text" id="lastName" placeholder="Last Name">
+                    <input type="email" id="email" placeholder="Email">
+                    <input type="text" id="phone" placeholder="Phone">
+                    <input type="password" id="password" placeholder="Password">
+
+                    <label style="opacity: 0.6">Register as</label>
+                    <select id = "role" name="role">
+                        <option value="student">Student</option>
+                        <option value="faculty">Faculty</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                    <p id = "reg-message" style="color: red; display: none">All fields must be filled</p>
+                    <input class = "registration_button" type="button" value="Register" onclick="registerUser()">
+
+                </form>
+            </div>
+            <div id = "edit-user-form" style="display: none">
+                <form   class = "registration_form" >
+                    <label style="opacity: 0.6">Username</label>
+                    <input class="input" type="text" id="edit-username" placeholder="Username">
+                    <label style="opacity: 0.6">First Name</label>
+                    <input class="input" type="text" id="edit-firstName" placeholder="First Name">
+                    <label style="opacity: 0.6">Last Name</label>
+                    <input class="input" type="text" id="edit-lastName" placeholder="Last Name">
+                    <label style="opacity: 0.6">Email</label>
+                    <input class="input" type="email" id="edit-email" placeholder="Email">
+                    <label style="opacity: 0.6">Phone</label>
+                    <input class="input" type="text" id="edit-phone" placeholder="Phone">
+
+                    <label id = "role-label" style="opacity: 0.6"></label>
+                    <select id = "edit-role" name="role">
+                        <option id = "student" value="student">Student</option>
+                        <option id = "faculty" value="faculty">Faculty</option>
+                        <option id = "admin" value="admin">Admin</option>
+                    </select>
+                    <p id = "edit-reg-message" style="color: red; display: none">All fields must be filled</p>
+                    <div style="display: flex; flex-direction: row">
+                        <input class = "button" type="button" value="Ok" onclick="edittUser()">
+                        <input class = "button" type="button" value="Cancel" onclick="editCancel()">
+                    </div>
+                </form>
+                </div>
         </div>
     </div>
     <div id = "role-manage" style="display: none">

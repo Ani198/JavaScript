@@ -9,16 +9,40 @@
         <script src="../../lms/encryption.helper.js"></script>
         <script src="../../lms/user.js"></script>
         <script src="../../lms/lms.js"></script>
+        <script src="../../lms/book.js"></script>
+        <script src="../../lms/library.js"></script>
+
     </head>
     <header class = "header">
         <h1 style="padding: 15px">Library Management System</h1>
     </header>
     <body class = "body" onload="window.lms = new LMS();">
+        <script>
+            if(JSON.parse(sessionStorage.getItem("users")) === null)
+            {
+                let users = [];
+                let passwords = [];
+                users.push(new User('admin', capitalize(randomWord()), capitalize(randomWord()),
+                    randomPhoneNumber(), randomWord() + "@gmail.com", 'admin', new Set()));
+                passwords.push('admin12');
+                users.push(new User('student', capitalize(randomWord()), capitalize(randomWord()),
+                    randomPhoneNumber(), randomWord() + "@gmail.com", 'student', new Set()));
+                passwords.push('student12');
+                users.push(new User('faculty', capitalize(randomWord()), capitalize(randomWord()),
+                    randomPhoneNumber(), randomWord() + "@gmail.com", 'faculty', new Set()));
+                passwords.push('faculty12');
+                sessionStorage.setItem("users", JSON.stringify(users));
+                sessionStorage.setItem("passwords", JSON.stringify(passwords));
+            }
+
+        </script>
         <form class = "login_form">
+
             <label style="opacity: 0.6">Enter Username</label>
             <input type="text" id="username" placeholder="Username">
             <label style="opacity: 0.6">Enter Password</label>
             <input type="password" id="password" placeholder="Password">
+            <p id = "message" style="color: red; display: none">Wrong username or password</p>
             <div>
                 <input class = "login_button" type="button" value="Login" onclick="login()">
                 <input class = "registration_button" type="button" value="Register" onclick="registerFromLoginPage()">

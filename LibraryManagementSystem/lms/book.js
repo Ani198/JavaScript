@@ -1,9 +1,33 @@
-let counter = makeCounter();
+function counterId(){
+    let counter = null;
+    if(JSON.parse(sessionStorage.getItem("books")) === null){
+        counter = makeCounter(1);
+    }
+    else{
+        let start = JSON.parse(sessionStorage.getItem("books")).length+1;
+        counter = makeCounter(start);
+    }
+    return counter;
+}
+
+
+
+
+
+function makeCounter(start) {
+    let count = start;
+
+    return function() {
+        return count++; // has access to the outer "count"
+    };
+}
+
+
 
 class Book{
     constructor(title = capitalize(randomWord()), author = authors[getRndInteger(0, authors.length - 1)],
                 pageCount = getRndInteger(2, 500), description = randomText()){
-        this.id = counter();
+        this.id = counterId()();
         this.title = title;
         this.author = author;
         this.pageCount = pageCount;
@@ -12,16 +36,11 @@ class Book{
         this.taken = false;
         this.takeDate = ""; //new Date().toString().slice(0, 21)
         this.returnDate = "";
+        this.takeRequest = false;
+        this.returnRequest = false;
     }
 }
 
-function makeCounter() {
-    let count = 1;
-
-    return function() {
-        return count++; // has access to the outer "count"
-    };
-}
 
 let authors = [ "William Shakespeare", "Emily Dickinson", "H. P. Lovecraft", "Arthur Conan Doyle",
     "Leo Tolstoy", "Edgar Allan Poe", "Robert Ervin Howard", "Rabindranath Tagore", "Rudyard Kipling",
@@ -33,6 +52,16 @@ let authors = [ "William Shakespeare", "Emily Dickinson", "H. P. Lovecraft", "Ar
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+function randomPhoneNumber(){
+    let numbers = "0123456789";
+    let phoneNumber = "";
+
+    for(let i = 0; i < 6; i++){
+        phoneNumber += numbers[getRndInteger(0, numbers.length - 1)];
+    }
+    return phoneNumber;
 }
 
 function randomWord(){

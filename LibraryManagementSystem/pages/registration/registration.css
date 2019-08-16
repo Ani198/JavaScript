@@ -4,7 +4,7 @@
     padding:0;
 }
 
-#username, #password, #email, #phone{
+#username, #password, #email, #phone, #firstName, #lastName{
     border-radius: 5px;
     height: 35px;
     width: 300px;
@@ -37,12 +37,12 @@
 }
 
 .body{
-    background: bisque;
+    background: antiquewhite;
 }
 
 .header{
     display: flex;
     height: 80px;
-    background: maroon;
-    color: antiquewhite;
+    background: sienna;
+    color: white;
 }

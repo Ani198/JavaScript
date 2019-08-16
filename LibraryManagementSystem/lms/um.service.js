@@ -2,22 +2,33 @@ class UserManagement {
     constructor(){
         this.users = [];
         this.passwords = [];
-        
-        this.users.push(new User('admin','admin','','','','admin'));
-        this.passwords.push('admin12');
-        this.users.push(new User('student','student','','','','student'));
-        this.passwords.push('student12');
-        this.users.push(new User('faculty','faculty','','','','faculty'));
-        this.passwords.push('faculty12');
-    }
 
+        //console.log("users" in sessionStorage);
+/*
+        if(JSON.parse(sessionStorage.getItem("users")) === null) {
+            this.users.push(new User('admin', capitalize(randomWord()), capitalize(randomWord()),
+                randomPhoneNumber(), randomWord() + "@gmail.com", 'admin', new Set()));
+            this.passwords.push('admin12');
+            this.users.push(new User('student', capitalize(randomWord()), capitalize(randomWord()),
+                randomPhoneNumber(), randomWord() + "@gmail.com", 'student', new Set()));
+            this.passwords.push('student12');
+            this.users.push(new User('faculty', capitalize(randomWord()), capitalize(randomWord()),
+                randomPhoneNumber(), randomWord() + "@gmail.com", 'faculty', new Set()));
+            this.passwords.push('faculty12');
+            sessionStorage.setItem("users", JSON.stringify(this.users));
+            sessionStorage.setItem("passwords", JSON.stringify(this.passwords));
+        }*/
+    }
     getUserByUsername(username){
-        for(let i=0;i<this.users.length;i++){
-            if(this.users[i].username==username){
+        let users = JSON.parse(sessionStorage.getItem("users"));
+        let passwords = JSON.parse(sessionStorage.getItem("passwords"));
+
+        for(let i=0;i<users.length;i++){
+            if(users[i].username==username){
                 return {
                     username: username,
-                    role: this.users[i].role,
-                    password: this.passwords[i]
+                    role: users[i].role,
+                    password: passwords[i]
                 };
             }
         }

@@ -7,6 +7,14 @@ class User {
         this.email = email;
         this.role = role;
         this.bookHistory = new Set();
+        this.editting = false;
+        this.requests = [];
     }
 }
 
+class RequestClass {
+    constructor(book, message){
+        this.book = book;
+        this.message = message;
+    }
+}

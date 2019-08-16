@@ -2,13 +2,14 @@ class AuthService {
     static login(username, password){
         let user = window.lms.getUmService().getUserByUsername(username);
         if(user==null){
-            console.log('Username or password is incorrect');
+            document.getElementById("message").style.display = "block";
             return;
         } 
 
         let hashedPass = EncryptionHelper.hash(password);
         if(user.password === hashedPass){
-            if(sessionStorage.getItem('authInfo')!=null) sessionStorage.removeItem('authInfo');
+            if(sessionStorage.getItem('authInfo')!=null)
+                sessionStorage.removeItem('authInfo');
             sessionStorage.setItem('authInfo', JSON.stringify(user));
             switch (user.role) {
                 case "student":
@@ -20,7 +21,7 @@ class AuthService {
                     break;
             }
         }else{
-            console.log('Username or password is incorrect');
+            document.getElementById("message").style.display = "block";
         }
     }
 

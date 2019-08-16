@@ -117,9 +117,7 @@ class LMS {
         }
     }
 
-    viewHistory(){
 
-    }
 
     getUmService(){
         return this.umService;
