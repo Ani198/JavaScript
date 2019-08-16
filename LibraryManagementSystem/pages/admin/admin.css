@@ -72,11 +72,11 @@ th{
 
 }
 
-#takeId, #editId, #removeId{
+#takeId, #editId, #removeId, #acceptId, #rejectId{
     background: darkgrey;
     border-bottom: 1px solid gray;
 }
-#takeId:hover, #editId:hover, #removeId:hover{
+#takeId:hover, #editId:hover, #removeId:hover, #acceptId:hover, #rejectId:hover{
     cursor: pointer;
     background: #cccccc;
 }

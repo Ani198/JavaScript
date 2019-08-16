@@ -16,7 +16,7 @@ class Library{
         sessionStorage.removeItem("books");
         sessionStorage.setItem("books", JSON.stringify(this.books));
     };
-
+/*
     // prints all books in library
     getAllBooks() {
         for(let book of this.books){
@@ -119,7 +119,7 @@ class Library{
                 console.log("Title: " + book.title + "\nDescription: '" + book.description + "'");
             }
         }
-    };
+    };*/
 
 }
 
@@ -201,6 +201,14 @@ function something() {
 
     let books = JSON.parse(sessionStorage.getItem("books"));
 
+    let users = JSON.parse(sessionStorage.getItem("users"));
+
+    let fullUser;
+    for(let us of users){
+        if(us.username == user.username)
+            fullUser = us;
+    }
+
     let tbl = document.getElementById("table");
     if(document.getElementById("body").contains(tbl)){
         document.body.removeChild(tbl);
@@ -275,12 +283,31 @@ function something() {
                     td6.innerText = "Take";
                     td6.style.background = "darkgrey";
                     books[i].takeRequest = false;
+                    for(let i = 0; i < users.length; i++){
+                        if(users[i].username == user.username){
+                            for(let j = 0; j < fullUser.requests.length; j++){
+                                if(fullUser.requests[j].book.id == book.id){
+                                    fullUser.requests.splice(j, 1);
+                                    users[i] = fullUser;
+                                }
+                            }
+                        }
+                        //console.log(users[i].requests.length)
+                    }
+                    sessionStorage.setItem("users", JSON.stringify(users));
                     //books[i].taken = false;
                 }
                 else{
                     td6.innerText = "Request was sent";
                     td6.style.background = "chocolate";
                     books[i].takeRequest = true;
+                    for(let i = 0; i < users.length; i++){
+                        if(users[i].username == user.username){
+                            users[i].requests.push(new RequestClass(book, "take"));
+                        }
+                        //console.log(users[i].requests.length)
+                    }
+                    sessionStorage.setItem("users", JSON.stringify(users));
                     //books[i].taken = true;
                     books[i].takeDate = new Date().toString().slice(0, 21);
                     //user.bookHistory.add(books[i]);
@@ -293,9 +320,16 @@ function something() {
                 td6.innerText = "Taken";
                 td6.style.background = "chocolate"
             }
-            else if(book.takeRequest){
+            else if(book.takeRequest || book.returnRequest){
                 td6.innerText = "Request was sent";
-                td6.style.background = "chocolate"
+                if(!bookInUserResuests(fullUser, book)){
+                    td6.style.background = "red";
+                    td6.style.pointerEvents = 'none';
+                }
+                else{
+                    td6.style.background = "chocolate"
+                    td6.style.pointerEvents = 'auto';
+                }
             }
 
             else{td6.appendChild(document.createTextNode("Take"));}
@@ -333,6 +367,19 @@ function something() {
     }
     document.body.appendChild(table);
 
+}
+
+// check if book is in user's requests
+function bookInUserResuests(user, book) {
+    //let requests = user.requests;
+    let t = false;
+    for(let req of user.requests){
+        if(req.book.id == book.id){
+            t = true;
+            break;
+        }
+    }
+    return t;
 }
 
 function showRecommend() {
@@ -515,28 +562,214 @@ function showTakenBooks() {
         tr.appendChild(td5);
 
         if (getRoles()[user.role].returnBook) {
+            let users = JSON.parse(sessionStorage.getItem("users"));
             let td6 = document.createElement('td');
             td6.id = "returnId";
             td6.addEventListener("click", function () {
-                if (td6.innerText == "Returned") {
+                if (td6.innerText == "Return Request was sent") {
                     td6.innerText = "Return";
                     td6.style.background = "darkgrey";
-                    books[i].taken = true;
+                    books[i].returnRequest = false;
+                    //books[i].taken = true;
                 } else {
-                    td6.innerText = "Returned";
+                    td6.innerText = "Return Request was sent";
                     td6.style.background = "chocolate";
-                    books[i].taken = false;
+                    books[i].returnRequest = true;
+                    //books[i].taken = false;
+
+                    for(let j = 0; j < users.length; j++){
+                        if(users[j].username == user.username){
+                            users[j].requests.push(new RequestClass(book, "return"));
+                        }
+                    }
                     books[i].returnDate = new Date().toString().slice(0, 21);
 
                     //console.log(books[i].returnDate);
                 }
-                sessionStorage.setItem("books", JSON.stringify(books))
+                sessionStorage.setItem("books", JSON.stringify(books));
+                sessionStorage.setItem("users", JSON.stringify(users));
 
             });
             td6.appendChild(document.createTextNode("Return"));
             tr.appendChild(td6);
         }
         table.appendChild(tr);
+    }
+    document.body.appendChild(table);
+}
+
+function viewRequests() {
+    let user = JSON.parse(sessionStorage.getItem('authInfo'));
+
+    let books = JSON.parse(sessionStorage.getItem("books"));
+    let users = JSON.parse(sessionStorage.getItem("users"));
+    let tbl = document.getElementById("table");
+    if(document.getElementById("body").contains(tbl)){
+        document.body.removeChild(tbl);
+
+    }
+
+    let table = document.createElement('table');
+    table.id = "table";
+    let trh = document.createElement('tr');
+
+    let th1 = document.createElement('th');//username
+    let th2 = document.createElement('th');//bookId
+    let th3 = document.createElement('th');//title
+    let th4 = document.createElement('th');//author
+    let th5 = document.createElement('th');//request
+
+
+
+    th1.appendChild(document.createTextNode("Usernme"));
+    th2.appendChild(document.createTextNode("Book ID"));
+    th3.appendChild(document.createTextNode("Title"));
+    th4.appendChild(document.createTextNode("Author"));
+    th5.appendChild(document.createTextNode("Request"));
+
+
+    trh.appendChild(th1);
+    trh.appendChild(th2);
+    trh.appendChild(th3);
+    trh.appendChild(th4);
+    trh.appendChild(th5);
+
+
+    if(getRoles()[user.role].acceptHold && getRoles()[user.role].acceptReturn){
+        let th6 = document.createElement('th');
+
+        trh.appendChild(th6);
+
+        let th7 = document.createElement('th');
+
+        trh.appendChild(th7);
+    }
+    table.appendChild(trh);
+
+
+    for (let i = 0; i < users.length; i++) {
+        let us = users[i];
+
+        for(let j = 0; j < us.requests.length; j++){
+            let req = us.requests[j];
+
+            let tr = document.createElement('tr');
+
+            let td1 = document.createElement('td');
+            let td2 = document.createElement('td');
+            let td3 = document.createElement('td');
+            let td4 = document.createElement('td');
+            let td5 = document.createElement('td');
+
+            td1.appendChild(document.createTextNode(us.username));
+            td2.appendChild(document.createTextNode(req.book.id));
+            td3.appendChild(document.createTextNode(req.book.title));
+            td4.appendChild(document.createTextNode(req.book.author));
+            td5.appendChild(document.createTextNode(req.message));
+
+
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            tr.appendChild(td3);
+            tr.appendChild(td4);
+            tr.appendChild(td5);
+
+
+
+
+        if (getRoles()[user.role].acceptHold && getRoles()[user.role].acceptReturn) {
+            let td6 = document.createElement('td');
+            td6.id = "acceptId";
+            td6.appendChild(document.createTextNode("Accept"));
+            td6.addEventListener("click", function () {
+                if(td6.innerText == "Accepted"){
+                    td6.innerText = "Accept";
+                    td6.style.background = "darkgrey";
+                    if(req.message == 'take'){
+                        req.book.taken = false;
+
+                    }
+                    else if(req.message == 'return'){
+                        req.book.taken = true;
+                        req.takeRequest = false;
+                    }
+
+                }
+                else{
+                    td6.innerText = "Accepted";
+                    td6.style.background = "chocolate";
+                    if(req.message == 'take'){
+                        req.book.taken = true;
+                        req.takeRequest = false;
+                        us.requests.splice(j, 1);
+                        }
+
+                    else if(req.message == 'return'){
+                        req.book.taken = false;
+                        req.returnRequest = false;
+                        us.requests.splice(j, 1);
+                    }
+
+
+                }
+                for(let u = 0; u < users.length; u++){
+                    if(users[u].username == us.username){
+                        users[u] = us;
+                    }
+                }
+
+                for(let b = 0; b < books.length; b++){
+                    if(books[b].id == req.book.id){
+                        books[b] = req.book;
+                    }
+                }
+
+
+                sessionStorage.setItem("books", JSON.stringify(books));
+                sessionStorage.setItem("users", JSON.stringify(users));
+
+            });
+
+            let td7 = document.createElement('td');
+            td7.id = "rejectId";
+            td7.appendChild(document.createTextNode("Reject"));
+
+            td7.addEventListener("click", function () {
+                if(td7.innerText == "Reject"){
+                    td7.innerText = "Rejected";
+                    td7.style.background = "chocolate";
+                    if(req.message == 'take'){
+
+                    }
+                    else if(req.message == 'return'){
+
+                    }
+
+                }
+                else{
+                    td7.innerText = "Rejected";
+                    if(req.message == 'take'){
+
+                    }
+                    else if(req.message == 'return'){
+
+                    }
+                }
+
+
+
+                sessionStorage.setItem("books", JSON.stringify(books));
+
+            });
+
+            tr.appendChild(td6);
+            tr.appendChild(td7);
+
+        }
+        table.appendChild(tr);
+
+        }
+
     }
     document.body.appendChild(table);
 }
@@ -670,7 +903,7 @@ function getRoles()
             'renewBook': true,
             'returnBook': true,
             'viewHistory': true,
-            'recommendBook': false,
+            'recommendBook': true,
             'searchBook': true,
             'addBook': false,
             'addUser': false,
@@ -702,7 +935,7 @@ function getRoles()
             'viewHistory': false,
             'recommendBook': false,
             'searchBook': true,
-            'addBook': true,
+            'addBook': false,
             'addUser': true,
             'editUser': true,
             'removeUser': true,
@@ -746,8 +979,6 @@ function registerUser() {
         passwords.push(EncryptionHelper.hash(password));
         sessionStorage.setItem("users", JSON.stringify(users));
         sessionStorage.setItem("passwords", JSON.stringify(passwords));
-
-        sessionStorage.setItem("smth", "Something");
 
         document.getElementById("reg-form").style.display = "none";
         viewUsers();
